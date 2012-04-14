@@ -65,7 +65,7 @@ post '/api/users' do
     }
   }
 
-  {response: @geoloqi.access_token}.to_json
+  {lq_access_token: @geoloqi.access_token}.to_json
 end
 
 get '/api/status' do
