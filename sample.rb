@@ -18,7 +18,7 @@ if options[:access_token]
   mogli_client = Mogli::Client.new options[:access_token]
   access_token = mogli_client.access_token
 else
-  authenticator = Mogli::Authenticator.new($config['fb_client_id'], $config['fb_client_secret'], 'http://everydaycity.com/auth/callback')
+  authenticator = Mogli::Authenticator.new(($config['fb_client_id']||286536824758724), $config['fb_client_secret'], 'http://everydaycity.com/auth/callback')
   puts authenticator.authorize_url(:scope => 'publish_stream', :display => 'page')
 
   puts
@@ -31,7 +31,7 @@ puts
 
 puts "Sending to everydaycity.com"
 
-resp = RestClient.post('http://127.0.0.1:9800/api/users', {
+resp = RestClient.post('http://everydaycity.com/api/users', {
   fb_access_token: access_token,
   fb_expiration_date: 1339743600
 }.to_json) {|response, request, result| response }

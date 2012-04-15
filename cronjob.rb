@@ -78,6 +78,6 @@ users.each do |user|
       end
     end
 
-    puts "FB RESPONSE: #{JSON.parse(fb_resp)}"
+    puts "FB RESPONSE: #{fb_resp}"
   end
 end
