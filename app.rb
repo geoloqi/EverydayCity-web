@@ -64,12 +64,12 @@ end
 get '/api/status' do
   if @geoloqi.access_token?
     begin
-      @response = @geoloqi.get 'location/context'
+      resp = @geoloqi.get 'location/context'
     rescue => e
       puts "error: #{e.message}"
       return {error: e.message}.to_json
     end
-    return {response: @response[:best_name]}.to_json
+    return {response: resp[:best_name]}.to_json
   else
     error 401, 'geoloqi access token required'
   end
