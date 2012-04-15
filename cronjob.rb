@@ -50,6 +50,7 @@ users.each do |user|
     # DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
 
     # update to facebook
+binding.pry
     fb_resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
       city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
       access_token: user[:fb_access_token]

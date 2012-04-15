@@ -2,17 +2,17 @@
     <head>
         <title>OG Sample Object - Sample City</title>
 
-        <meta property="og:title" content="<%= h @city[:name] %>" />
-        <meta property="og:image" content="http://everydaycity.com/map/180x180/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png" />
-        <meta property="everydaycity:location:latitude" content="45.5246" />
-        <meta property="everydaycity:location:longitude" content="-122.6843" />
-        <meta property="everydaycity:bounding_box" content="<%= @city[:bbox] %>" />
-        <meta property="fb:app_id" content="286536824758724" />
-        <meta property="og:url" content="<%= request.url %>" />
-        <meta property="og:type" content="everydaycity:city" />
-
-        <link type="text/css" rel="stylesheet" href="/stylesheets/app.css" />
+        <meta property="og:title" content="<%= h @city[:name] %>">
+        <meta property="og:image" content="http://everydaycity.com/map/180x180/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png">
+        <meta property="everydaycity:location:latitude" content="45.5246">
+        <meta property="everydaycity:location:longitude" content="-122.6843">
+        <meta property="everydaycity:bounding_box" content="<%= @city[:bbox] %>">
+        <meta property="fb:app_id" content="286536824758724">
+        <meta property="og:url" content="<%= request.url %>">
+        <meta property="og:type" content="everydaycity:city">
     </head>
     <body>
+      <h1><%= @city[:name] %></h1>
+      <p><img src="http://everydaycity.com/map/540x400/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png"></p>
     </body>
 </html>
