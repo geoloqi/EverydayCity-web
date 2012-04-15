@@ -19,10 +19,12 @@ users.each do |user|
 
   lat, lng = last[:location][:position][:latitude], last[:location][:position][:longitude]
 
-  bing_url = "http://dev.virtualearth.net/REST/v1/Locations/#{lat},#{lng}?includeEntityTypes=PopulatedPlace&key=#{$config['bing_key']}"
+  bing_url = "http://dev.virtualearth.net/REST/v1/Locations/#{lat},#{lng}?includeEntityTypes=PopulatedPlace&key=#{$config['bing_geocoding_key']}"
   bing_resp = JSON.parse(RestClient.get(bing_url), symbolize_names: true)[:resourceSets].first[:resources].first
 
-  
+  # If geocoder returns nothing, go to next.
+  next if bing_resp.nil?
+
   city_args = {
     name:     bing_resp[:name],
     bbox:     bing_resp[:bbox].join(','),

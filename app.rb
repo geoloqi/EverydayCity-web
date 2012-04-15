@@ -36,7 +36,7 @@ get '/map/:resolution/:country/:region/:locality.png' do
   img_width, img_height = params[:resolution].split('x')
   ppl = Rack::Utils.escape "54,,#{city[:lat]},#{city[:lng]}"
   map_img_url = "http://fb.ecn.api.tiles.virtualearth.net/api/GetMap.ashx?"+
-                "b=r%2Cmkt.en-US%2Cstl.fb&key=#{$config['bing_key']}&td=D1&h=#{img_height}&w=#{img_width}&ppl=#{ppl}&z=8"
+                "b=r%2Cmkt.en-US%2Cstl.fb&key=#{$config['bing_img_key']}&td=D1&h=#{img_height}&w=#{img_width}&ppl=#{ppl}&z=8"
   redirect map_img_url
   #query = {mapArea: city[:bbox], mapSize: params[:resolution].gsub('x', ','), format: 'png', mapMetadata: 0, key: $config[:bing_key]}
   #map_img_url = "http://dev.virtualearth.net/REST/v1/Imagery/Map/Road?#{Rack::Utils.build_query query}"
