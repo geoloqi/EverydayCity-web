@@ -47,14 +47,27 @@ users.each do |user|
   end
 
   if user[:current_city] != city[:name]
-    # DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
+    puts "user current city #{user[:current_city]} is wrong, changing to #{city[:name]}"
+    DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
+
+    retry_attempt = 0
 
     # update to facebook
-binding.pry
-    fb_resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
-      city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
-      access_token: user[:fb_access_token]
-    }) {|response, request, result| response }
-    puts JSON.parse(fb_resp).inspect
+    begin
+      fb_resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
+        city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
+        access_token: user[:fb_access_token]
+      }) {|response, request, result| response }
+    rescue => e
+      if e.message =~ /Transfer failed/
+        if retry_attempt == 5
+          puts "5 errors for #{user[:geoloqi_user_id]}. Skipping"
+          next
+        end
+        puts "FAILED: #{JSON.parse(fb_resp)}. Retrying (attempt ##{retry_attempt})"
+        retry_attempt
+      end
+    end
+    puts "FB RESPONSE: #{JSON.parse(fb_resp)}"
   end
 end
