@@ -49,16 +49,25 @@ post '/api/users' do
     halt 500, "fb_access_token or fb_expiration_date (or both) not found"
   end
 
-  resp = @geoloqi.create_anon_user
+  facebook_profile = get_facebook_profile params[:fb_access_token]
 
-  DB[:users] << {
-    lq_access_token:    @geoloqi.access_token, 
-    geoloqi_user_id:    resp[:user_id],
-    fb_access_token:    params[:fb_access_token], 
-    fb_expiration_date: params[:fb_expiration_date]
-  }
+  if facebook_profile[:id]
+    resp = @geoloqi.create_anon_user
 
-  {lq_access_token: @geoloqi.access_token}.to_json
+    DB[:users] << {
+      lq_access_token:    @geoloqi.access_token, 
+      geoloqi_user_id:    resp[:user_id],
+      fb_user_id:         facebook_profile[:id],
+      fb_user_url:        facebook_profile[:link],
+      fb_access_token:    params[:fb_access_token], 
+      fb_expiration_date: params[:fb_expiration_date],
+      date_created:       Time.now
+    }
+
+    {lq_access_token: @geoloqi.access_token}.to_json
+  else
+    {error: "unknown_error"}.to_json
+  end
 end
 
 get '/api/status' do
@@ -80,6 +89,19 @@ get '/city/:country/:region/:locality' do
   erb :'og'
 end
 
+# Test route for getting a Facebook access token
+get '/auth/callback' do
+  resp = RestClient.post("https://graph.facebook.com/oauth/access_token", {
+    client_id: $config['fb_client_id'],
+    client_secret: $config['fb_client_secret'],
+    redirect_uri: 'http://everydaycity.com/auth/callback',
+    code: params[:code]
+  }) {|response,request,result| Rack::Utils.parse_query response}
+
+  @fb_access_token = resp['access_token']
+  erb :'fb_auth'
+end
+
 =begin
 {
   locality_name: "Portland",
@@ -96,6 +118,11 @@ end
 
 def bearer_token
   http_auth ? http_auth.gsub('Bearer ', '') : nil
+end
+
+def get_facebook_profile(access_token)
+  resp = RestClient.get("https://graph.facebook.com/me?access_token=#{access_token}") {|response, request, result| response }
+  JSON.parse resp, symbolize_names: true
 end
 
 module Geoloqi

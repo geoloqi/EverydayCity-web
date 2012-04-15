@@ -39,13 +39,14 @@ users.each do |user|
   end
 
   city_args = {
-    name:     bing_resp[:name],
-    bbox:     bing_resp[:bbox].join(','),
-    lat:      bing_resp[:point][:coordinates][0],
-    lng:      bing_resp[:point][:coordinates][1],
-    locality: bing_resp[:address][:locality],
-    region:   bing_resp[:address][:adminDistrict],
-    country:  bing_resp[:address][:countryRegion]
+    name:         bing_resp[:name],
+    bbox:         bing_resp[:bbox].join(','),
+    lat:          bing_resp[:point][:coordinates][0],
+    lng:          bing_resp[:point][:coordinates][1],
+    locality:     bing_resp[:address][:locality],
+    region:       bing_resp[:address][:adminDistrict],
+    country:      bing_resp[:address][:countryRegion],
+    date_created: Time.now
   }
 
   city = DB[:cities].filter(country: city_args[:country], region: city_args[:region], locality: city_args[:locality]).first

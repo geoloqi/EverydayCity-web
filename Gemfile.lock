@@ -10,10 +10,25 @@ GEM
     geoloqi (0.9.39)
       faraday (>= 0.6.1)
       json
+    hashie (1.1.0)
+    highline (1.6.11)
+    httmultiparty (0.3.7)
+      httparty (>= 0.7.3)
+      multipart-post
+    httparty (0.8.1)
+      multi_json
+      multi_xml
     json (1.6.6)
     kgio (2.7.4)
     method_source (0.7.1)
     mime-types (1.18)
+    mogli (0.0.37)
+      hashie (~> 1.1.0)
+      httmultiparty (>= 0.3.6)
+      httparty (>= 0.4.3)
+      multi_json (~> 1.0.3)
+    multi_json (1.0.4)
+    multi_xml (0.4.1)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
     pry (0.9.8.4)
@@ -53,6 +68,8 @@ PLATFORMS
 
 DEPENDENCIES
   geoloqi
+  highline (~> 1.6.11)
+  mogli
   mysql2
   pry
   pry-nav
