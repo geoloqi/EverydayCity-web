@@ -1,7 +1,8 @@
 require 'bundler/setup'
 Bundler.require
-require 'yaml'
 require 'sinatra'
+Bundler.require :development if development?
+require 'yaml'
 require_relative './env.rb'
 
 before do
