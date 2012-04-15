@@ -25,7 +25,7 @@ users.each do |user|
   
   city_args = {
     name:     bing_resp[:name],
-    bbox:     bing_resp[:bbox].join ',',
+    bbox:     bing_resp[:bbox].join(','),
     lat:      bing_resp[:point][:coordinates][0],
     lng:      bing_resp[:point][:coordinates][1],
     locality: bing_resp[:address][:locality],
