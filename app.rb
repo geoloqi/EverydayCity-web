@@ -52,19 +52,26 @@ post '/api/users' do
   facebook_profile = get_facebook_profile params[:fb_access_token]
 
   if facebook_profile[:id]
-    resp = @geoloqi.create_anon_user
+    # Check if we already have a Geoloqi account for this user
+    user = DB[:users].filter(fb_user_id: facebook_profile[:id]).first
+    if user.nil?
+      resp = @geoloqi.create_anon_user
 
-    DB[:users] << {
-      lq_access_token:    @geoloqi.access_token, 
-      geoloqi_user_id:    resp[:user_id],
-      fb_user_id:         facebook_profile[:id],
-      fb_user_url:        facebook_profile[:link],
-      fb_access_token:    params[:fb_access_token], 
-      fb_expiration_date: params[:fb_expiration_date],
-      date_created:       Time.now
-    }
+      DB[:users] << {
+        lq_access_token:    @geoloqi.access_token, 
+        geoloqi_user_id:    resp[:user_id],
+        fb_user_id:         facebook_profile[:id],
+        fb_user_url:        facebook_profile[:link],
+        fb_access_token:    params[:fb_access_token], 
+        fb_expiration_date: params[:fb_expiration_date],
+        date_created:       Time.now
+      }
+      lq_access_token = @geoloqi.access_token
+    else
+      lq_access_token = user[:lq_access_token]
+    end
 
-    {lq_access_token: @geoloqi.access_token}.to_json
+    {lq_access_token: lq_access_token}.to_json
   else
     {error: "unknown_error"}.to_json
   end
