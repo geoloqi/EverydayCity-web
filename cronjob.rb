@@ -5,6 +5,15 @@ require_relative './env.rb'
 require 'pry'
 users = DB[:users].all
 
+def update_facebook(country, region, locality, access_token)
+  resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
+    city: "http://everydaycity.com/city/#{country}/#{region}/#{locality}",
+    access_token: access_token
+  }) {|response, request, result| response }
+  
+  JSON.parse resp, symbolize_names: true
+end
+
 users.each do |user|
   begin
     last = Geoloqi.get user[:lq_access_token], 'location/last'
@@ -52,22 +61,22 @@ users.each do |user|
 
     retry_attempt = 0
 
-    # update to facebook
-    begin
-      fb_resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
-        city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
-        access_token: user[:fb_access_token]
-      }) {|response, request, result| response }
-    rescue => e
-      if e.message =~ /Transfer failed/
-        if retry_attempt == 5
-          puts "5 errors for #{user[:geoloqi_user_id]}. Skipping"
-          next
-        end
-        puts "FAILED: #{JSON.parse(fb_resp)}. Retrying (attempt ##{retry_attempt})"
-        retry_attempt
+    while true
+      fb_resp = update_facebook city[:country], city[:region], city[:locality], user[:fb_access_token]
+
+      if fb_resp[:error] && fb_resp[:error][:message] =~ /Transfer failed/
+        retry_attempt += 1
+        puts "TRANSFER FAILED, RETRYING (attempt ##{retry_attempt})"
+      else
+        break
+      end
+
+      if retry_attempt == 5
+        puts "TRANSFER FAILED #{retry_attempt} times for user #{user[:geoloqi_user_id]}, skipping"
+        next
       end
     end
+
     puts "FB RESPONSE: #{JSON.parse(fb_resp)}"
   end
 end
