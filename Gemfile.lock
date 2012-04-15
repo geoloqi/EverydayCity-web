@@ -12,25 +12,29 @@ GEM
       json
     json (1.6.6)
     method_source (0.7.1)
+    mime-types (1.18)
     multipart-post (1.1.5)
+    mysql2 (0.3.11)
     pry (0.9.8.4)
       coderay (~> 1.0.5)
       method_source (~> 0.7.1)
       slop (>= 2.4.4, < 3)
+    pry-nav (0.2.0)
+      pry (~> 0.9.8.1)
     puma (0.9.5)
       rack (>= 1.2, < 2.0)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    sequel (3.33.0)
     shotgun (0.9)
       rack (>= 1.0)
     sinatra (1.3.2)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
-    sinatra-geoloqi (0.9.3)
-      geoloqi (>= 0.9.36)
-      sinatra (>= 1.0)
     slop (2.4.4)
     tilt (1.3.3)
 
@@ -38,8 +42,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  geoloqi
+  mysql2
   pry
+  pry-nav
   puma
+  rest-client
+  sequel
   shotgun
   sinatra
-  sinatra-geoloqi

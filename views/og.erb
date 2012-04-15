@@ -1,44 +1,18 @@
 <html>
-    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# everydaycity: http://ogp.me/ns/fb/everydaycity#">
+    <head>
         <title>OG Sample Object - Sample City</title>
 
-        <meta property="og:title" content="Sample City" />
-        <meta property="og:image" content="https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png" />
+        <meta property="og:title" content="<%= h @city[:name] %>" />
+        <meta property="og:image" content="http://everydaycity.com/map/180x180/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png" />
+        <meta property="everydaycity:location:latitude" content="45.5246" />
+        <meta property="everydaycity:location:longitude" content="-122.6843" />
+        <meta property="everydaycity:bounding_box" content="<%= @city[:bbox] %>" />
         <meta property="fb:app_id" content="286536824758724" />
-        <meta property="og:url" content="http://samples.ogp.me/286542838091456" />
+        <meta property="og:url" content="<%= h request.url %>" />
         <meta property="og:type" content="everydaycity:city" />
 
         <link type="text/css" rel="stylesheet" href="/stylesheets/app.css" />
     </head>
     <body>
-        <div id="wrapper">
-            <h1>OG Sample Object - Sample City</h1>
-            <table border="0" cellspacing="0">
-              <tr>
-                <th class="key">og:title</th>
-                <td class="value">Sample City</td>
-              </tr>
-
-              <tr>
-                <th class="key">og:image</th>
-                <td class="value">https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png</td>
-              </tr>
-
-              <tr>
-                <th class="key">fb:app_id</th>
-                <td class="value">286536824758724</td>
-              </tr>
-
-              <tr>
-                <th class="key">og:url</th>
-                <td class="value">http://samples.ogp.me/286542838091456</td>
-              </tr>
-
-              <tr>
-                <th class="key">og:type</th>
-                <td class="value">everydaycity:city</td>
-              </tr>
-            </table>
-        </div>
     </body>
 </html>
