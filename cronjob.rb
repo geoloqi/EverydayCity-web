@@ -22,7 +22,8 @@ users.each do |user|
   bing_url = "http://dev.virtualearth.net/REST/v1/Locations/#{lat},#{lng}?includeEntityTypes=PopulatedPlace&key=#{$config['bing_key']}"
   bing_resp = JSON.parse(RestClient.get(bing_url), symbolize_names: true)[:resourceSets].first[:resources].first
 
-  DB[:cities] << {
+  
+  city_args = {
     name:     bing_resp[:name],
     bbox:     bing_resp[:bbox].join ',',
     lat:      bing_resp[:point][:coordinates][0],
@@ -31,13 +32,17 @@ users.each do |user|
     region:   bing_resp[:address][:adminDistrict],
     country:  bing_resp[:address][:countryRegion]
   }
-  
-  city = DB[:cities][name: bing_resp[:name]]
+
+  city = DB[:cities].filter(country: city_args[:country], region: city_args[:region], locality: city_args[:locality]).first
+
+  if city.nil?
+    DB[:cities] << city_args
+    city = DB[:cities][name: bing_resp[:name]]
+  end
 
   if user[:current_city] != city[:name]
     # DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
 
-    binding.pry
     # update to facebook
     fb_resp = RestClient.post 'https://graph.facebook.com/me/everydaycity:arrive_in', {
       city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
