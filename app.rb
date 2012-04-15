@@ -32,7 +32,7 @@ end
 
 get '/map/:resolution/:country/:region/:locality.png' do
   city = DB[:cities].filter(country: params[:country], region: params[:region], locality: params[:locality]).first
-
+  not_found 'could not find city' if city.nil?
   img_width, img_height = params[:resolution].split('x')
   ppl = Rack::Utils.escape "54,,#{city[:lat]},#{city[:lng]}"
   map_img_url = "http://fb.ecn.api.tiles.virtualearth.net/api/GetMap.ashx?"+
