@@ -68,8 +68,8 @@ get '/api/status' do
   end
 end
 
-get '/:region/:locality/:city' do
-  @city = DB[:cities][region: params[:region], locality: p[:locality], p[:city]]
+get '/city/:country/:region/:locality' do
+  @city = DB[:cities][country: params[:country], region: params[:region], locality: p[:locality]]
   erb :'og'
 end
 
