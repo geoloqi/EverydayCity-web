@@ -2,7 +2,7 @@
 require 'bundler/setup'
 Bundler.require
 require_relative './env.rb'
-
+require 'pry'
 users = DB[:users].all
 
 users.each do |user|
@@ -23,7 +23,11 @@ users.each do |user|
   bing_resp = JSON.parse(RestClient.get(bing_url), symbolize_names: true)[:resourceSets].first[:resources].first
 
   # If geocoder returns nothing, go to next.
-  next if bing_resp.nil?
+  if bing_resp.nil?
+    puts bing_url
+    puts "BING returned no city, skip"
+    next
+  end
 
   city_args = {
     name:     bing_resp[:name],
@@ -46,10 +50,10 @@ users.each do |user|
     # DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
 
     # update to facebook
-    fb_resp = RestClient.post 'https://graph.facebook.com/me/everydaycity:arrive_in', {
+    fb_resp = RestClient.post('https://graph.facebook.com/me/everydaycity:arrive_in', {
       city: "http://everydaycity.com/city/#{city[:country]}/#{city[:region]}/#{city[:locality]}",
       access_token: user[:fb_access_token]
-    }
-    puts fb_resp.inspect
+    }) {|response, request, result| response }
+    puts JSON.parse(fb_resp).inspect
   end
 end
