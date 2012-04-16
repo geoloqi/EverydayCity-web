@@ -30,3 +30,15 @@ unless DB.table_exists? :cities
     index       [:country, :region, :locality]
   end
 end
+
+unless DB.table_exists? :visits
+  DB.create_table :visits do
+    primary_key :id
+    foreign_key :user_id, :users
+    foreign_key :city_id, :cities
+    Time        :date_visited
+    Float       :lat
+    Float       :lng
+    String      :fb_post_id
+  end
+end

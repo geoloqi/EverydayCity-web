@@ -79,5 +79,14 @@ users.each do |user|
     end
 
     puts "FB RESPONSE: #{fb_resp}"
+
+    DB[:visits] << {
+      user_id: user[:id],
+      city_id: city[:id],
+      date_visited: Time.now,
+      lat: lat,
+      lng: lng,
+      fb_post_id: fb_resp[:id]
+    }
   end
 end
