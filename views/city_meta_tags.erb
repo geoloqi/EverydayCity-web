@@ -1,0 +1,7 @@
+
+    <meta property="og:title" content="<%= h @city[:name] %>">
+    <meta property="og:image" content="http://everydaycity.com/map/180x180/<%= Rack::Utils.escape @city[:country] %>/<%= Rack::Utils.escape @city[:region] %>/<%= Rack::Utils.escape @city[:locality] %>.png">
+    <meta property="everydaycity:location:latitude" content="<%= @city[:lat] %>">
+    <meta property="everydaycity:location:longitude" content="<%= @city[:lng] %>">
+    <meta property="everydaycity:bounding_box" content="<%= @city[:bbox] %>">
+    <meta property="og:type" content="everydaycity:city">

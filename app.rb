@@ -11,6 +11,8 @@ before do
     request.body.rewind
   end
 
+  @city_meta_tags = ""
+
   @geoloqi = Geoloqi::Session.new(
     access_token: bearer_token,
     config: {
@@ -31,9 +33,14 @@ get '/' do
   erb :'index'
 end
 
+get '/everyday-city-itunes' do 
+  redirect 'https://geoloqi.com'
+end
+
 get '/map/:resolution/:country/:region/:locality.png' do
   city = DB[:cities].filter(country: params[:country], region: params[:region], locality: params[:locality]).first
   not_found 'could not find city' if city.nil?
+
   img_width, img_height = params[:resolution].split('x')
   ppl = Rack::Utils.escape "54,,#{city[:lat]},#{city[:lng]}"
   map_img_url = "http://fb.ecn.api.tiles.virtualearth.net/api/GetMap.ashx?"+
@@ -43,6 +50,22 @@ get '/map/:resolution/:country/:region/:locality.png' do
   #map_img_url = "http://dev.virtualearth.net/REST/v1/Imagery/Map/Road?#{Rack::Utils.build_query query}"
   #puts "IMAGE URL: #{map_img_url}"
   #map_img_url
+end
+
+get '/city/:country/:region/:locality' do
+  @city = DB[:cities][country: params[:country], region: params[:region], locality: params[:locality]]
+
+  not_found erb(:'error') if @city.nil?
+
+  @city_meta_tags = erb :'city_meta_tags', :layout => false
+  @title = "#{@city[:name]} - Everyday City"
+  if params[:fb_action_ids]
+    @visit = DB[:visits].join(:users, :id => :user_id).filter(:fb_post_id => params[:fb_action_ids]).first
+  else
+    @visit = nil
+  end
+  puts @visit
+  erb :'og'
 end
 
 post '/api/users' do
@@ -63,6 +86,7 @@ post '/api/users' do
         geoloqi_user_id:    resp[:user_id],
         fb_user_id:         facebook_profile[:id],
         fb_user_url:        facebook_profile[:link],
+        fb_user_name:       facebook_profile[:name],
         fb_access_token:    params[:fb_access_token], 
         fb_expiration_date: params[:fb_expiration_date],
         date_created:       Time.now
@@ -94,11 +118,6 @@ get '/api/status' do
   else
     error 401, 'geoloqi access token required'
   end
-end
-
-get '/city/:country/:region/:locality' do
-  @city = DB[:cities][country: params[:country], region: params[:region], locality: params[:locality]]
-  erb :'og'
 end
 
 # Test route for getting a Facebook access token

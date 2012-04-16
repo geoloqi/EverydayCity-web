@@ -1,18 +1,34 @@
-<html>
-    <head>
-        <title>OG Sample Object - Sample City</title>
 
-        <meta property="og:title" content="<%= h @city[:name] %>">
-        <meta property="og:image" content="http://everydaycity.com/map/180x180/<%= Rack::Utils.escape @city[:country] %>/<%= Rack::Utils.escape @city[:region] %>/<%= Rack::Utils.escape @city[:locality] %>.png">
-        <meta property="everydaycity:location:latitude" content="<%= @city[:lat] %>">
-        <meta property="everydaycity:location:longitude" content="<%= @city[:lng] %>">
-        <meta property="everydaycity:bounding_box" content="<%= @city[:bbox] %>">
-        <meta property="fb:app_id" content="286536824758724">
-        <meta property="og:url" content="<%= request.url %>">
-        <meta property="og:type" content="everydaycity:city">
-    </head>
-    <body>
-      <h1><%= @city[:name] %></h1>
-      <p><img src="http://everydaycity.com/map/540x400/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png"></p>
-    </body>
-</html>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1><%= @city[:name] %></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span7">
+        <div class="city">
+          <div class="city-in">
+                  <div>
+                    <img src="http://everydaycity.com/map/540x400/<%= @city[:country] %>/<%= @city[:region] %>/<%= @city[:locality] %>.png">
+                  </div>
+          </div>
+        </div>
+      </div>
+      <div class="span4">
+        <% if @visit %>
+          <h3 class="visit"><b><%= @visit[:fb_user_name] %> is using Everyday City</b> to automatically update <%= (@visit[:fb_user_gender] == 'male' ? 'his' : 'her') %> city on Facebook</h3>
+        <% end %>
+        <div style="padding-bottom: 20px;"></div>
+        <div class="right">
+          <h4 style="text-align: center;">Coming Soon:</h4>
+          <!-- <a href="/everyday-city-itunes"><img src="/img/available-on-the-app-store.png"></a> -->
+          <img src="/img/available-on-the-app-store.png">
+        </div>
+        <p>
+          <img src="/img/iPhone-app-screenshot-main.png" class="screenshot">
+        </p>
+      </div>
+    </div>
+  </div>
+

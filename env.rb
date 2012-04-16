@@ -11,6 +11,7 @@ unless DB.table_exists? :users
     Integer     :fb_expiration_date
     String      :fb_user_id
     String      :fb_user_url
+    String      :fb_user_name
     String      :current_city
     Time        :date_created
   end

@@ -8,6 +8,10 @@ body {
     padding-left: 0px;
     padding-right: 0px;
   }
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .navbar-fixed-top {
     margin-left: 0px;
     margin-right: 0px;
@@ -19,6 +23,10 @@ body {
     padding-left: 0px;
     padding-right: 0px;
   }
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .navbar-fixed-top {
     margin-left: 0px;
     margin-right: 0px;
@@ -26,6 +34,10 @@ body {
   }  
 }
 
+
+h3.visit {
+  font-weight: normal;
+}
 
 
 .navbar {
@@ -58,6 +70,68 @@ body {
   margin-top: 30px;
 }
 
+
+.city {
+  width: 546px;
+  border: 1px solid #C4CDE0;
+  border-bottom-width: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.city-in {
+  background: white;
+  padding: 3px;
+}
+
+@media (min-width: 767px) and (max-width: 979px) {
+  .city {
+    width: 414px;
+  }
+  .city img {
+    width: 408px;
+  }
+}
+@media (max-width: 414px) {
+  .city {
+    width: 100%;
+  }
+  .city img {
+    width: 100%;
+  }
+}
+
+
+.screenshot {
+  width: 190px;
+}
+
+.screenshot-main {
+  width: 280px;
+}
+@media (min-width: 767px) and (max-width: 979px) {
+  .screenshot-main {
+    width: 210px;
+  }
+}
+@media (max-width: 767px) {
+  .screenshot-main {
+    width: 210px;
+  }
+}
+
+
+.main-page-content .inside {
+  border: 1px solid #C4CDE0;
+  background: white;
+  border-bottom-width: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+
 @media (max-width: 979px) {
   #header-caption {
     width: 220px;
@@ -89,26 +163,6 @@ body {
   border: 1px #ddd solid;
   margin: -20px -20px 35px -20px;
   padding: 19px;
-}
-
-.footer {
-  background: url(/img/bkg-dark.png) repeat center top #151515;
-  padding: 20px 0 10px 0;
-}
-.footer .fill {
-  display: block;
-}
-.footer li {
-  line-height: 24px;
-}
-.footer h5 {
-  color: #ddd;
-}
-.footer li, .footer h5 {
-  font-size: 13px;
-}
-.footer a {
-  color: gray;
 }
 
 
@@ -179,4 +233,78 @@ code {
   background: rgba(155, 155, 155, 0.1);
   white-space: nowrap;
 }
+
+/** 
+ * footer
+ */
+#copyright {
+  line-height: 14px;
+  margin:4px 0 0;
+}
+
+.footer {
+  background: #151515;
+  padding: 5px 0 5px 0;
+  min-height: 40px;
+}
+.footer .fill {
+  display: block;
+}
+.footer li {
+  line-height: 24px;
+}
+.footer h5 {
+  color: #ddd;
+}
+.footer li, .footer h5 {
+  font-size: 13px;
+}
+.footer a {
+  color: gray;
+}
+
+.right {
+  float: right;
+}
+@media (max-width: 767px) and (max-width: 979px) {
+  .footer {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .right {
+    clear: both;
+    float: none;
+  }
+}
+
+
+.bar nav.small a {
+  line-height: 40px;
+  font-size: 11px;
+  display: block;
+  float: left;
+  padding-right: 2em;
+}
+.bar a {
+  color: #F2F2F2;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+
+/** 
+ * Sticky footer 
+ */
+html, body {
+  height: 100%;
+}
+.page-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */
+}
+.push {
+  height: 50px; /* .push must be the same height as .footer */
+}
+
 

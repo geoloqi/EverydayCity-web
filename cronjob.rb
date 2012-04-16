@@ -102,8 +102,6 @@ users.each do |user|
       user_id: user[:id],
       city_id: city[:id],
       date_visited: Time.now,
-      lat: lat,
-      lng: lng,
       fb_post_id: fb_resp[:id]
     }
   end

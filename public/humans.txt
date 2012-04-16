@@ -1,0 +1,11 @@
+/* TEAM */
+  Aaron Parecki
+  Kyle Drake
+  Amber Case
+
+/* SITE */
+  Site Name: Everyday City
+  Site URL: http://everydaycity.com
+  Location: Portland, Oregon
+  Built With: Ruby, HTML5, CSS, Bootstrap, Sinatra, Geoloqi
+
