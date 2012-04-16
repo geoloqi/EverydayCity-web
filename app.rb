@@ -69,6 +69,10 @@ post '/api/users' do
       }
       lq_access_token = @geoloqi.access_token
     else
+      DB[:users].filter(:fb_user_id => facebook_profile[:id]).update({
+        fb_access_token:    params[:fb_access_token],
+        fb_expiration_date: params[:fb_expiration_date]
+      })
       lq_access_token = user[:lq_access_token]
     end
 
