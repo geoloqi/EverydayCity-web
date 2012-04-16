@@ -56,6 +56,24 @@ users.each do |user|
     city = DB[:cities][name: bing_resp[:name]]
   end
 
+  # If token expires within an hour (or earlier), refresh the token.
+  if Time.at(user[:fb_expiration_date] || 0) - Time.now < 3600
+    args = {
+      client_id:        $config['fb_client_id'],
+      client_secret:    $config ['fb_client_secret'],
+      grant_type:       'fb_exchange_token',
+      fb_exchange_token: user[:fb_access_token]
+    }
+
+    res = RestClient.post("https://graph.facebook.com/oauth/access_token", args) {|response, request, result| response }
+    res = Rack::Utils.parse_query res
+
+    unless res['error']
+      puts "UPDATING TOKEN"
+      DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update(fb_access_token: res['access_token'], fb_expiration_date: Time.now.to_i+res['expires'].to_i)
+    end
+  end
+
   if user[:current_city] != city[:name]
     puts "user current city #{user[:current_city]} is wrong, changing to #{city[:name]}"
     DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
@@ -63,21 +81,6 @@ users.each do |user|
     retry_attempt = 0
 
     while true
-      # If token expires within an hour (or earlier), refresh the token.
-      if Time.at(user[:fb_expiration_date]) - Time.now < 3600
-
-        args = {
-          client_id:        $config['fb_client_id'],
-          client_secret:    '4b3a65c71184e2dc62c5fb58bf42feea',
-          grant_type:       'fb_exchange_token',
-          fb_exchange_token: user[:fb_access_token]
-        }
-
-        res = RestClient.post "https://graph.facebook.com/oauth/access_token", args
-        puts "LOL"
-        binding.pry
-      end
-
       fb_resp = update_facebook city[:country], city[:region], city[:locality], user[:fb_access_token]
 
       if fb_resp[:error] && fb_resp[:error][:message] =~ /Transfer failed/
