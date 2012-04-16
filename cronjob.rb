@@ -62,6 +62,21 @@ users.each do |user|
     retry_attempt = 0
 
     while true
+      # If token expires within an hour (or earlier), refresh the token.
+      if Time.at(user[:fb_expiration_date]) - Time.now < 3600
+
+        args = {
+          client_id:        $config['fb_client_id'],
+          client_secret:    '4b3a65c71184e2dc62c5fb58bf42feea',
+          grant_type:       'fb_exchange_token',
+          fb_exchange_token: user[:fb_access_token]
+        }
+
+        res = RestClient.post "https://graph.facebook.com/oauth/access_token", args
+        puts "LOL"
+        binding.pry
+      end
+
       fb_resp = update_facebook city[:country], city[:region], city[:locality], user[:fb_access_token]
 
       if fb_resp[:error] && fb_resp[:error][:message] =~ /Transfer failed/
