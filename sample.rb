@@ -19,7 +19,7 @@ if options[:access_token]
   access_token = mogli_client.access_token
 else
   authenticator = Mogli::Authenticator.new(($config['fb_client_id']||286536824758724), $config['fb_client_secret'], 'http://everydaycity.com/auth/callback')
-  puts authenticator.authorize_url(:scope => 'publish_stream', :display => 'page')
+  puts authenticator.authorize_url(:scope => 'publish_stream publish_actions', :display => 'page')
 
   puts
   puts "Visit the above URL in your browser, and paste the resulting access token below"
