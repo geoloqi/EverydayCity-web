@@ -39,13 +39,14 @@ users.each do |user|
   end
 
   city_args = {
-    name:     bing_resp[:name],
-    bbox:     bing_resp[:bbox].join(','),
-    lat:      bing_resp[:point][:coordinates][0],
-    lng:      bing_resp[:point][:coordinates][1],
-    locality: bing_resp[:address][:locality],
-    region:   bing_resp[:address][:adminDistrict],
-    country:  bing_resp[:address][:countryRegion]
+    name:         bing_resp[:name],
+    bbox:         bing_resp[:bbox].join(','),
+    lat:          bing_resp[:point][:coordinates][0],
+    lng:          bing_resp[:point][:coordinates][1],
+    locality:     bing_resp[:address][:locality],
+    region:       bing_resp[:address][:adminDistrict],
+    country:      bing_resp[:address][:countryRegion],
+    date_created: Time.now
   }
 
   city = DB[:cities].filter(country: city_args[:country], region: city_args[:region], locality: city_args[:locality]).first
@@ -92,6 +93,15 @@ users.each do |user|
       end
     end
 
-    puts "FB RESPONSE: #{JSON.parse(fb_resp)}"
+    puts "FB RESPONSE: #{fb_resp}"
+
+    DB[:visits] << {
+      user_id: user[:id],
+      city_id: city[:id],
+      date_visited: Time.now,
+      lat: lat,
+      lng: lng,
+      fb_post_id: fb_resp[:id]
+    }
   end
 end

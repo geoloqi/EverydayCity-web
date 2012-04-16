@@ -1,2 +1,7 @@
 geoloqi_client_id: 
 geoloqi_client_secret: 
+fb_client_id: 
+fb_client_secret: 
+database: mysql2://root@localhost/everydaycity
+bing_img_key: 
+bing_geocoding_key: 
