@@ -27,6 +27,7 @@ helpers do
 end
 
 get '/' do
+  @title = "Everyday City"
   erb :'index'
 end
 
