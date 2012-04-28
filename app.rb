@@ -28,6 +28,11 @@ helpers do
   end
 end
 
+def img_for_city(city, w, h)
+  # return "/img/Icon@2x.png"
+  "/map/#{w}x#{h}/#{URI.encode city[:country]}/#{URI.encode city[:region]}/#{URI.encode city[:locality]}.png"
+end
+
 get '/' do
   @title = "Everyday City"
   erb :'index'
@@ -118,6 +123,14 @@ get '/api/status' do
   else
     error 401, 'geoloqi access token required'
   end
+end
+
+get '/history' do
+  @me = DB[:users].filter(:user_id => 5).first
+  puts @me
+  @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited => 'desc').all
+  puts @history
+  erb :history, :layout => :'layout_history'
 end
 
 # Test route for getting a Facebook access token

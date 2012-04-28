@@ -1,0 +1,86 @@
+CREATE TABLE `visits` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `date_visited` datetime DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `lng` double DEFAULT NULL,
+  `fb_post_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `city_id` (`city_id`)
+);
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lq_access_token` varchar(255) DEFAULT NULL,
+  `geoloqi_user_id` varchar(255) DEFAULT NULL,
+  `fb_access_token` varchar(255) DEFAULT NULL,
+  `fb_expiration_date` int(11) DEFAULT NULL,
+  `fb_user_id` varchar(255) DEFAULT NULL,
+  `fb_user_url` varchar(255) DEFAULT NULL,
+  `fb_user_name` varchar(255) DEFAULT NULL,
+  `fb_user_gender` varchar(20) DEFAULT NULL,
+  `current_city` varchar(255) DEFAULT NULL,
+  `date_created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_lq_access_token_index` (`lq_access_token`)
+);
+
+CREATE TABLE `cities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `country` varchar(50) DEFAULT NULL,
+  `region` varchar(100) DEFAULT NULL,
+  `locality` varchar(100) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `lng` double DEFAULT NULL,
+  `bbox` varchar(255) DEFAULT NULL,
+  `date_created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cities_country_region_locality_index` (`country`,`region`,`locality`)
+);
+
+INSERT INTO `cities` (`id`, `country`, `region`, `locality`, `name`, `lat`, `lng`, `bbox`, `date_created`)
+VALUES
+  (1, 'United States', 'CA', 'Menlo Park', 'Menlo Park, CA', 37.4546890258789, -122.17790222168, '37.43008804321289,-122.20630645751953,37.48155212402344,-122.14806365966797', '2012-04-15 23:24:38'),
+  (2, 'United States', 'OR', 'Portland', 'Portland, OR', 45.5117912292481, -122.675628662109, '45.173194885253906,-123.4850082397461,45.86595916748047,-121.88526153564453', '2012-04-15 23:25:29'),
+  (3, 'United States', 'CA', 'Cupertino', 'Cupertino, CA', 37.3188400268555, -122.029243469238, '37.29375457763672,-122.0625228881836,37.33992004394531,-122.00042724609375', '2012-04-24 02:00:05'),
+  (4, 'United States', 'CA', 'Santa Clara', 'Santa Clara, CA', 37.3554992675781, -121.954261779785, '37.3248291015625,-121.97989654541016,37.393035888671875,-121.92218017578125', '2012-04-24 04:15:04'),
+  (5, 'United States', 'CA', 'Sunnyvale', 'Sunnyvale, CA', 37.3716087341309, -122.03825378418, '37.33191680908203,-122.0663833618164,37.411865234375,-122.0031509399414', '2012-04-24 17:45:04'),
+  (6, 'United States', 'CA', 'Palo Alto', 'Palo Alto, CA', 37.4446601867676, -122.160789489746, '37.39263153076172,-122.25234985351562,37.496543884277344,-122.04058074951172', '2012-04-24 18:30:04'),
+  (7, 'United States', 'CA', 'Mountain View', 'Mountain View, CA', 37.3896713256836, -122.081596374512, '37.342952728271484,-122.18717956542969,37.44686508178711,-121.97554779052734', '2012-04-24 21:15:04'),
+  (8, 'United States', 'CA', 'San Jose', 'San Jose, CA', 37.3384704589844, -121.885787963867, '37.169071197509766,-122.23924255371094,37.51545333862305,-121.5343017578125', '2012-04-25 00:15:03'),
+  (9, 'United States', 'CA', 'San Mateo', 'San Mateo, CA', 37.5470314025879, -122.314826965332, '37.5329704284668,-122.33480072021484,37.57395935058594,-122.2931137084961', '2012-04-25 20:45:08'),
+  (10, 'United States', 'CA', 'San Francisco', 'San Francisco, CA', 37.7771186828613, -122.419639587402, '37.64891052246094,-122.66365814208984,37.92567443847656,-122.18305206298828', '2012-04-25 21:00:04'),
+  (11, 'United States', 'CA', 'South San Francisco', 'South San Francisco, CA', 37.655891418457, -122.413368225098, '37.64373016357422,-122.4438705444336,37.6724967956543,-122.3858413696289', '2012-04-26 04:45:03'),
+  (12, 'United States', 'CA', 'Redwood City', 'Redwood City, CA', 37.4841690063476, -122.227096557617, '37.43335723876953,-122.33235168457031,37.537269592285156,-122.1204605102539', '2012-04-26 05:00:03'),
+  (13, 'United States', 'CA', 'Belmont', 'Belmont, CA', 37.5183410644531, -122.276206970215, '37.5015869140625,-122.30274963378906,37.539485931396484,-122.24951934814453', '2012-04-26 23:15:03'),
+  (14, 'United States', 'CA', 'Millbrae', 'Millbrae, CA', 37.6027603149414, -122.395439147949, '37.59080505371094,-122.4121322631836,37.60889434814453,-122.38536071777344', '2012-04-26 23:30:04'),
+  (15, 'United States', 'CA', 'Daly City', 'Daly City, CA', 37.6910781860352, -122.473350524902, '37.66436767578125,-122.51042175292969,37.71906661987305,-122.43804931640625', '2012-04-27 00:00:02'),
+  (16, 'United States', 'CA', 'Colma', 'Colma, CA', 37.6776504516602, -122.459457397461, '37.66481399536133,-122.47528839111328,37.686405181884766,-122.4465103149414', '2012-04-27 00:00:04'),
+  (17, 'United States', 'CA', 'Woodside', 'Woodside, CA', 37.42919921875, -122.251678466797, '37.3812370300293,-122.35771179199219,37.481689453125,-122.15303802490234', '2012-04-27 20:00:05');
+
+INSERT INTO `users` (`id`, `lq_access_token`, `geoloqi_user_id`, `fb_access_token`, `fb_expiration_date`, `fb_user_id`, `fb_user_url`, `fb_user_name`, `fb_user_gender`, `current_city`, `date_created`)
+VALUES
+  (5, 'c042-cae4140fd561af8cb10ad8c2b4c609f68e298043', 'DfJ', 'BAAEEmo2nocQBAHWRrWhbcwXKR9mLCgSs2Y0aaFuIW5ySIWz44eoMxZCFQoHSJkaFxe7VBfHZAkbyUMrmgZBg7qkZArhqd3wgapSeXdaYEu4t5dOhZAJPj6b91hqzf2DhckDjPfvDfUL5x2NKW5q7G', 1340505000, '100003783674457', 'http://www.facebook.com/profile.php?id=100003783674457', 'Pk Dev', NULL, 'Portland, OR', '2012-04-25 02:32:26');
+
+INSERT INTO `visits` (`id`, `user_id`, `city_id`, `date_visited`, `lat`, `lng`, `fb_post_id`)
+VALUES
+  (46, 5, 1, '2012-04-26 19:00:06', NULL, NULL, '601965559347'),
+  (47, 5, 13, '2012-04-26 23:15:04', NULL, NULL, '10100438633546766'),
+  (48, 5, 13, '2012-04-26 23:15:06', NULL, NULL, '602001706907'),
+  (49, 5, 14, '2012-04-26 23:30:05', NULL, NULL, '10100438648886026'),
+  (50, 5, 9, '2012-04-26 23:30:07', NULL, NULL, '602003942427'),
+  (51, 5, 15, '2012-04-27 00:00:03', NULL, NULL, '10100438707528506'),
+  (52, 5, 16, '2012-04-27 00:00:06', NULL, NULL, '602007889517'),
+  (53, 5, 10, '2012-04-27 00:15:04', NULL, NULL, '10100438730128216'),
+  (54, 5, 10, '2012-04-27 00:15:06', NULL, NULL, '602010204877'),
+  (55, 5, 14, '2012-04-27 04:00:03', NULL, NULL, '10100439054308556'),
+  (56, 5, 6, '2012-04-27 04:15:03', NULL, NULL, '10100439081409246'),
+  (57, 5, 4, '2012-04-27 04:30:04', NULL, NULL, '10100439110625696'),
+  (58, 5, 8, '2012-04-27 14:00:05', NULL, NULL, '10100439684630386'),
+  (59, 5, 2, '2012-04-27 17:30:04', NULL, NULL, '10100439980911636'),
+  (60, 5, 17, '2012-04-27 20:00:06', NULL, NULL, NULL),
+  (61, 5, 2, '2012-04-27 20:15:05', NULL, NULL, '602161102477');
+
