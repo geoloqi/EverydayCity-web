@@ -46,19 +46,36 @@ h3.visit {
 
 
 .hero-unit {
-  background: url(/img/everyday-city-header.jpg) center center no-repeat;
-  padding: 10px;
+  padding: 3px;
   text-align: center;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  border-left:1px solid #C4CDE0;
+  border-right:1px solid #C4CDE0;
+  border-bottom:1px solid #C4CDE0;
+  background: white;
+  -webkit-border-radius: 0px 0px 3px 3px;
+  border-radius: 0px 0px 3px 3px;
+}
+
+.hero-unit .inner {
+  background: white url(/img/everyday-city-header.jpg) center center no-repeat;
+}
+
+#timeline-screenshot {
+  padding:3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: white;
+  margin:10px 0;
+  max-width:100%;
+  height:auto;
 }
 
 #header-caption {
   background: url(/img/everyday-city-text.png) no-repeat;
   width: 272px;
   height: 196px;
-  margin-left: 30%;
+  margin-top:10px;
 }
 #header-caption h1, #header-caption h2 {
   display: none;
@@ -66,7 +83,6 @@ h3.visit {
 
 #available-on-the-app-store {
   width: 250px;
-  margin-left: 30%;
   margin-top: 30px;
 }
 
@@ -101,22 +117,18 @@ h3.visit {
   }
 }
 
-
-.screenshot {
-  width: 190px;
-}
-
 .screenshot-main {
-  width: 280px;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
 }
+
 @media (min-width: 767px) and (max-width: 979px) {
-  .screenshot-main {
-    width: 210px;
-  }
+  
 }
 @media (max-width: 767px) {
-  .screenshot-main {
-    width: 210px;
+  .screenshot-main{
+    display: none;
   }
 }
 
@@ -138,9 +150,6 @@ h3.visit {
     background-size: 220px 158px;
     margin: 0 auto;
   }
-  #fb-timeline-screenshot {
-    width: 320px;
-  }
   #available-on-the-app-store {
     width: 200px;
     margin-left: 0;
@@ -149,12 +158,12 @@ h3.visit {
   }
 }
 @media (max-width: 767px) {
-  #fb-timeline-screenshot {
-    width: 240px;
-  }
   #available-on-the-app-store {
     margin-bottom: 10px;
     margin-top: 0;
+  }
+  #timeline-screenshot {
+    max-width:95%;
   }
 }
 
@@ -314,12 +323,15 @@ html, body {
 }
 .page-wrapper {
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */
+  margin: 0 auto; 
 }
-.push {
-  height: 50px; /* .push must be the same height as .footer */
+#main {
+  padding-bottom:50px;
+}
+.footer {
+  position: relative;
+  clear: both;
+  margin-top:-50px;
 }
 
 .page-wrapper {
