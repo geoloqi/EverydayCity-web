@@ -27,6 +27,16 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/jquery-1.7.1.min.js"><\/script>')</script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/iscroll.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        // Because of how iScroll calculates height you cannot add margin or padding to the last 
+        // element to get padding on the bottom. Just add an invisible block after the main list
+        $(".scroll","#history").append("<div id='pad'></div>");
+        // Using iscroll to bounce the list of locations and not the webview when overscrolled
+        var myScroll = new iScroll('history');
+      });
+    </script>
   </head>
   <body>
   <div class="page-wrapper">

@@ -1,16 +1,13 @@
-<div class="container history" style="margin-top: 10px;">
-<% @history.each do |visit| %>
-  <div>
-    <div style="float: left;">
-      <div class="thumb">
-        <img src="<%= img_for_city(visit, 60, 60) %>" width="60" height="60" />
-      </div>
-    </div>
-    <div style="float: left;">
-      <h3><%= visit[:name] %></h3>
-      <%= (Date.parse visit[:date_visited].to_s).to_s %>
-    </div>
+<section id="history" class="container history">
+  <div class="scroll">
+    <% @history.each do |visit| %>
+      <article>
+        <header>
+          <h3><%= visit[:name] %></h3>
+          <time datetime="<%= DateTime.parse(visit[:date_visited].to_s).iso8601 %>"><%= DateTime.parse(visit[:date_visited].to_s).strftime("%A %B %e %l:%M%P")%></time>
+        </header>
+        <img src="<%= img_for_city(visit, 292, 120) %>" width="292" height="120" alt="<%= visit[:name] %>">
+      </article>
+    <% end %>
   </div>
-  <div style="clear: both; padding-top: 10px;"></div>
-<% end %>
-</div>
+</section>

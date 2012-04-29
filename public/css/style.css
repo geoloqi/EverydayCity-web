@@ -322,4 +322,61 @@ html, body {
   height: 50px; /* .push must be the same height as .footer */
 }
 
+.page-wrapper {
+  position: relative;
+}
 
+#history * {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-user-select: none; /* Disable selection/Copy of UIWebView */
+}
+
+#history {
+  width:100%;
+  margin:0;
+  padding:0;
+  position: absolute;
+  top:0;
+  bottom:0;
+  overflow: hidden;
+}
+
+#history article {
+  margin:13px auto;
+  width:298px;
+  background:white;
+  border: 1px solid #C4CDE0;
+  -webkit-border-radius:3px;
+  border-radius:3px;
+}
+
+#pad {
+  height:13px;
+  width:100%;
+  background-color: rgba(0,0,0,0);
+}
+
+#history article header {
+  font-size:11px;
+  line-height:1.28em;
+  margin:13px 15px;
+  padding:0 0 3px 0;
+  border-bottom:1px solid #e5e5e5;
+}
+
+#history article header h3 {
+  font-size:13px;
+  line-height:1.28em;
+  padding:0 0 3px 0;
+}
+
+#history article header time {
+  color: gray;
+}
+
+#history article img {
+  margin:3px auto;
+  display: block;
+  width:292px;
+  height:120px;
+}

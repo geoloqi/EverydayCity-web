@@ -126,7 +126,7 @@ get '/api/status' do
 end
 
 get '/history' do
-  @me = DB[:users].filter(:user_id => 5).first
+  @me = DB[:users].filter(:id => 5).first
   puts @me
   @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited => 'desc').all
   puts @history
