@@ -126,10 +126,23 @@ get '/api/status' do
 end
 
 get '/history' do
-  @me = DB[:users].filter(:id => 5).first
-  puts @me
-  @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited => 'desc').all
-  puts @history
+  if @geoloqi.access_token?
+    begin
+      user = @geoloqi.get 'account/profile'
+      @me = DB[:users].filter(:geoloqi_user_id => user[:user_id]).first
+      if @me
+        @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited => 'desc').all
+      else
+        error 404, 'user not found'
+      end
+    rescue => e
+      puts "error: #{e.message}"
+      return {error: e.message}.to_json
+    end
+  else
+    error 401, 'geoloqi access token required'
+  end
+
   erb :history, :layout => :'layout_history'
 end
 
