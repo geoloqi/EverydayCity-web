@@ -131,7 +131,7 @@ get '/history' do
       user = @geoloqi.get 'account/profile'
       @me = DB[:users].filter(:geoloqi_user_id => user[:user_id]).first
       if @me
-        @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited => 'desc').all
+        @history = DB[:visits].join(:cities, :id => :city_id).filter(:user_id => @me[:id]).order(:date_visited.desc).all
       else
         error 404, 'user not found'
       end
