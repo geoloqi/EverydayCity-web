@@ -60,7 +60,7 @@ users.each do |user|
   if Time.at(user[:fb_expiration_date] || 0) - Time.now < 3600
     args = {
       client_id:        $config['fb_client_id'],
-      client_secret:    $config ['fb_client_secret'],
+      client_secret:    $config['fb_client_secret'],
       grant_type:       'fb_exchange_token',
       fb_exchange_token: user[:fb_access_token]
     }
@@ -75,7 +75,7 @@ users.each do |user|
   end
 
   if user[:current_city] != city[:name]
-    puts "user current city #{user[:current_city]} is wrong, changing to #{city[:name]}"
+    puts "user current city #{user[:current_city]} is old, changing to #{city[:name]}"
     DB[:users].filter(geoloqi_user_id: user[:geoloqi_user_id]).update current_city: city[:name]
 
     retry_attempt = 0
@@ -104,5 +104,8 @@ users.each do |user|
       date_visited: Time.now,
       fb_post_id: fb_resp[:id]
     }
+
+    # Send a message to the user
+    Geoloqi.post $config['geoloqi_app_token'], 'message/send', :text => "Welcome to #{city[:name]}!", :user_id => user[:geoloqi_user_id], :layer_id => $config['geoloqi_layer_id']
   end
 end

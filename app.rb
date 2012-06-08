@@ -137,7 +137,7 @@ get '/history' do
       end
     rescue => e
       puts "error: #{e.message}"
-      return {error: e.message}.to_json
+      error 401, e.message
     end
   else
     error 401, 'geoloqi access token required'

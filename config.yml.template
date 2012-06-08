@@ -1,5 +1,7 @@
 geoloqi_client_id: 
 geoloqi_client_secret: 
+geoloqi_app_token:
+geoloqi_layer_id:
 fb_client_id: 
 fb_client_secret: 
 database: mysql2://root@localhost/everydaycity
