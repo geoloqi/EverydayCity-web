@@ -174,7 +174,7 @@ def http_auth
 end
 
 def bearer_token
-  http_auth ? http_auth.gsub('Bearer ', '') : nil
+  http_auth ? http_auth.gsub('OAuth ', '').gsub('Bearer ', '') : nil
 end
 
 def get_facebook_profile(access_token)
